@@ -76,4 +76,27 @@ describe("TasksManipulation Utils", () => {
       expect(task).toEqual(fakeTask);
     })
   })
+
+  describe("create", () => {
+    afterEach(async () => {
+      await fs.writeFile(file, []);
+    })
+
+    it("Should insert a task is file is empty", async () => {
+      const created = await create(fakeTask);
+
+      const task = await readOne("Name");
+
+      expect(task).toEqual(created);
+    })
+
+    it("Should insert a Task with file is not empty too", async () => {
+      await insertFakeTasks();
+
+      const created = await create(fakeTask);
+      const tasks = await read();
+
+      expect(tasks[1]).toEqual(created);
+    })
+  })
 })
