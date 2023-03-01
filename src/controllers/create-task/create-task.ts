@@ -1,7 +1,7 @@
-import { ValidateBody } from "../interfaces/validate-body";
-import { CreateTask } from '../interfaces/useCases';
-import { HttpRequest, HttpResponse } from '../interfaces/http';
-import { MissingParamError, ServerError } from "../interfaces/errors";
+import { ValidateBody } from "../../interfaces/validate-body";
+import { CreateTask } from '../../interfaces/useCases';
+import { HttpRequest, HttpResponse } from '../../interfaces/http';
+import { MissingParamError, ServerError } from "../../interfaces/errors";
 
 export class CreateTaskController {
   constructor(

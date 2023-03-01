@@ -1,9 +1,9 @@
-import { ValidateBody } from "../interfaces/validate-body"
+import { ValidateBody } from "../../interfaces/validate-body"
 import { CreateTaskController } from "./create-task"
-import { CreateTask } from '../interfaces/useCases';
-import { Task } from '../interfaces/task';
-import { HttpRequest } from '../interfaces/http';
-import { MissingParamError, ServerError } from "../interfaces/errors";
+import { CreateTask } from '../../interfaces/useCases';
+import { Task } from '../../interfaces/task';
+import { HttpRequest } from '../../interfaces/http';
+import { MissingParamError, ServerError } from "../../interfaces/errors";
 
 const makeHttpRequest = ():HttpRequest => ({
   body: makeTask()
