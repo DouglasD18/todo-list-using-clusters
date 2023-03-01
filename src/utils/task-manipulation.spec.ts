@@ -1,4 +1,4 @@
-import { create, read, readOne } from "./tasks-manipulation"
+import { create, read, readOne, uptade } from "./tasks-manipulation"
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { Task } from "../interfaces/task";
@@ -97,6 +97,30 @@ describe("TasksManipulation Utils", () => {
       const tasks = await read();
 
       expect(tasks[1]).toEqual(created);
+    })
+  })
+
+  describe("update", () => {
+    afterEach(async () => {
+      await fs.writeFile(file, []);
+    })
+
+    it("Should update a Task", async () => {
+      await insertFakeTasks();
+      const created = await create(fakeTask);
+
+      await uptade("Name", {
+        name: "Name",
+        description: "Faked",
+        isDone: true
+      })
+      const updated = await readOne("Name");
+
+      expect(created.isDone).toBe(false);
+      expect(updated).toBeTruthy();
+      if (updated) {
+        expect(updated.isDone).toBe(true);
+      }
     })
   })
 })
