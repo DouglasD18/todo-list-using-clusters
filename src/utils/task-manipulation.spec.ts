@@ -1,9 +1,15 @@
-import { read } from "./tasks-manipulation"
+import { create, read, readOne } from "./tasks-manipulation"
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { Task } from "../interfaces/task";
 
 const file = path.resolve("tasks.json");
+
+const fakeTask: Task = {
+  name: "Name",
+  description: "Faked",
+  isDone: false
+}
 
 const insertFakeTasks = async () => {
   const tasks = makeTasks();
@@ -30,7 +36,7 @@ describe("TasksManipulation Utils", () => {
     it("Should return void if do not have Tasks", async () => {
       const tasks = await read();
 
-      expect(tasks[0]).toBeFalsy()
+      expect(tasks).toBeFalsy()
     })
 
     it("Should return the correct Tasks when exists", async () => {
@@ -39,6 +45,35 @@ describe("TasksManipulation Utils", () => {
       const tasks = await read();
 
       expect(tasks).toEqual(makeTasks());
+    })
+  })
+
+  describe("readOne", () => {
+    afterEach(async () => {
+      await fs.writeFile(file, []);
+    })
+
+    it("Should return void if do not have Tasks", async () => {
+      const task = await readOne("Code");
+
+      expect(task).toBeFalsy()
+    })
+
+    it("Should return undefined if do not have Task with the same name", async () => {
+      await insertFakeTasks();
+
+      const task = await readOne("Name");
+
+      expect(task).toBe(undefined);
+    })
+
+    it("Should return the correct Task", async () => {
+      await insertFakeTasks();
+      await create(fakeTask);
+
+      const task = await readOne("Name");
+
+      expect(task).toEqual(fakeTask);
     })
   })
 })

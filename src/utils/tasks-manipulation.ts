@@ -12,7 +12,9 @@ const createNewFile = async (newTasks: Task[]): Promise<void> => {
 export async function read(): Promise<Task[] | void> {
   if (file) {
     const tasks = await fs.readFile(file, { encoding: "utf-8" });
-    return JSON.parse(tasks);
+    if (tasks) {
+      return JSON.parse(tasks);
+    }
   }
 }
 
