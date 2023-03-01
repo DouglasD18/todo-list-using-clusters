@@ -1,13 +1,15 @@
-import { MissingParamError, ServerError } from "../../interfaces/errors";
+import { MissingParamError, NotFoundError, ServerError } from "../../interfaces/errors";
 import { HttpRequest } from "../../interfaces/http";
 import { Task } from "../../interfaces/task";
-import { UpdateTask } from "../../interfaces/useCases";
+import { ReadOneTask, UpdateTask } from "../../interfaces/useCases";
 import { ValidateBody } from "../../interfaces/validate-body";
 import { UpdateTaskController } from "./update-task";
 
+const name = "any_name";
+
 const makeHttpRequest = (): HttpRequest => ({
   body: {
-    name: "any_name",
+    name,
     task: makeTask()
   }
 })
@@ -28,6 +30,16 @@ const makeValidateBodyStub = (): ValidateBody => {
   return new ValidateBodyStub();
 }
 
+const makeReadOneTaskStub = (): ReadOneTask => {
+  class ReadOneTaskStub implements ReadOneTask {
+    read(name: string): Promise<Task> {
+      return new Promise(resolve => resolve(makeTask()))
+    }
+  }
+
+  return new ReadOneTaskStub();
+}
+
 const makeUpdateTaskStub = (): UpdateTask => {
   class UpdateTaskStub implements UpdateTask {
     update({ name: string, task: Task}): Promise<Task> {
@@ -41,17 +53,20 @@ const makeUpdateTaskStub = (): UpdateTask => {
 interface SutTypes {
   sut: UpdateTaskController
   validateBodyStub: ValidateBody
+  readOneTaskStub: ReadOneTask
   updateTaskStub: UpdateTask
 }
 
 const makeSut = (): SutTypes => {
   const validateBodyStub = makeValidateBodyStub();
+  const readOneTaskStub = makeReadOneTaskStub();
   const updateTaskStub = makeUpdateTaskStub();
-  const sut = new UpdateTaskController(validateBodyStub, updateTaskStub);
+  const sut = new UpdateTaskController(validateBodyStub, readOneTaskStub, updateTaskStub);
 
   return {
     sut,
     validateBodyStub,
+    readOneTaskStub,
     updateTaskStub
   }
 }
@@ -96,6 +111,37 @@ describe("UpdateTask Controller", () => {
 
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new MissingParamError("isDone"));
+  })
+
+  it("Should call ReadOneTask with correct values", async () => {
+    const { sut, readOneTaskStub } = makeSut();
+
+    const readOneSpy = jest.spyOn(readOneTaskStub, "read");
+    await sut.handle(makeHttpRequest());
+
+    expect(readOneSpy).toHaveBeenCalledWith(name);
+  })
+
+  it("Should return 500 if ReadOneTask throws", async () => {
+    const { sut, readOneTaskStub } = makeSut();
+
+    jest.spyOn(readOneTaskStub, "read").mockImplementationOnce(() => {
+      throw new Error();
+    });
+    const httpResponse = await sut.handle(makeHttpRequest());
+
+    expect(httpResponse.statusCode).toBe(500);
+    expect(httpResponse.body).toEqual(new ServerError());
+  })
+
+  it("Should return 404 if ReadOneTask returns undefined", async () => {
+    const { sut, readOneTaskStub } = makeSut();
+
+    jest.spyOn(readOneTaskStub, "read").mockReturnValueOnce(new Promise(resolve => resolve(undefined)));
+    const httpResponse = await sut.handle(makeHttpRequest());
+
+    expect(httpResponse.statusCode).toBe(404);
+    expect(httpResponse.body).toEqual(new NotFoundError(name));
   })
 
   it("Should call UpdateTask with correct values", async () => {

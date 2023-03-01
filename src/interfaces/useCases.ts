@@ -11,3 +11,11 @@ export interface ReadTasks {
 export interface UpdateTask {
   update(request: { name: string, task: Task }): Promise<Task>
 }
+
+export interface ReadOneTask {
+  read(name: string): Promise<Task | undefined>
+}
+
+export interface DeleteTask {
+  delete(name: string): Promise<string>
+}
