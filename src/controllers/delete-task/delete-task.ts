@@ -1,28 +1,23 @@
-import { ReadOneTask, UpdateTask } from "../../interfaces/useCases";
+import { ReadOneTask, DeleteTask } from "../../interfaces/useCases";
 import { HttpRequest, HttpResponse } from '../../interfaces/http';
 import { MissingParamError, NotFoundError, ServerError } from "../../interfaces/errors";
-import { ValidateBody } from "../../interfaces/validate-body";
 
-export class UpdateTaskController {
+export class DeleteTaskController {
   constructor(
-    private validateBody: ValidateBody,
     private readOneTask: ReadOneTask,
-    private updateTask: UpdateTask
+    private deleteTask: DeleteTask
   ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const { body } = httpRequest;
-
-      const isValid = this.validateBody.isValid(body);
-      if (typeof isValid === "string") {
+      const { body: { name } } = httpRequest;
+      if (!name) {
         return {
           statusCode: 400,
-          body: new MissingParamError(isValid)
+          body: new MissingParamError("name")
         }
       }
 
-      const { name } = body;
       const exists = await this.readOneTask.read(name);
       if (exists === undefined) {
         return {
@@ -31,10 +26,10 @@ export class UpdateTaskController {
         }
       }
 
-      const tasks = await this.updateTask.update(body);
+      await this.deleteTask.delete(name);
       return {
-        statusCode: 200,
-        body: tasks
+        statusCode: 204,
+        body: name
       }
     } catch (error) {
       return {

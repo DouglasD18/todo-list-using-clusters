@@ -13,8 +13,8 @@ export class MissingParamError extends Error {
 }
 
 export class NotFoundError extends Error {
-  constructor(param: string) {
-    super(`Not found: ${param}`)
+  constructor() {
+    super(`Not found`)
     this.name = "NotFoundError"
   }
 }

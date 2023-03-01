@@ -17,5 +17,5 @@ export interface ReadOneTask {
 }
 
 export interface DeleteTask {
-  delete(name: string): Promise<string>
+  delete(name: string): Promise<void>
 }

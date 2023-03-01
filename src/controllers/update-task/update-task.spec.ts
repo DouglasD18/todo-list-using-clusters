@@ -141,7 +141,7 @@ describe("UpdateTask Controller", () => {
     const httpResponse = await sut.handle(makeHttpRequest());
 
     expect(httpResponse.statusCode).toBe(404);
-    expect(httpResponse.body).toEqual(new NotFoundError(name));
+    expect(httpResponse.body).toEqual(new NotFoundError());
   })
 
   it("Should call UpdateTask with correct values", async () => {
