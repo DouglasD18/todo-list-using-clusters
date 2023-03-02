@@ -13,7 +13,7 @@ export interface UpdateTask {
 }
 
 export interface ReadOneTask {
-  read(name: string): Promise<Task | undefined>
+  read(name: string): Promise<Task | []>
 }
 
 export interface DeleteTask {
