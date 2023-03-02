@@ -5,7 +5,7 @@ export interface CreateTask {
 }
 
 export interface ReadTasks {
-  read(): Promise<Task[]>
+  read(): Promise<Task[] | []>
 }
 
 export interface UpdateTask {
