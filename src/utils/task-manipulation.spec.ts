@@ -1,4 +1,4 @@
-import { create, deleteTask, read, readOne, uptade } from "./tasks-manipulation"
+import { create, deleteTask, read, readOne, update } from "./tasks-manipulation"
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { Task } from "../interfaces/task";
@@ -109,7 +109,7 @@ describe("TasksManipulation Utils", () => {
       await insertFakeTasks();
       const created = await create(fakeTask);
 
-      await uptade("Name", {
+      await update("Name", {
         name: "Name",
         description: "Faked",
         isDone: true

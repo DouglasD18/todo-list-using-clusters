@@ -41,7 +41,7 @@ export async function create(task: Task): Promise<Task> {
   return task;
 }
 
-export async function uptade(name: string, task: Task): Promise<Task> {
+export async function update(name: string, task: Task): Promise<Task> {
   const tasks = await read();
 
   if (tasks) {
