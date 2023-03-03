@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { Task } from "../../interfaces/task";
-import { create, read } from "../../utils/tasks-manipulation";
+import { create, read } from "../../utils/tasks-manipulation/tasks-manipulation";
 import { DeleteTaskService } from "./delete-task";
 
 const file = path.resolve("tasks.json");

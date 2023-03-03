@@ -1,7 +1,7 @@
 import { create, deleteTask, read, readOne, update } from "./tasks-manipulation"
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { Task } from "../interfaces/task";
+import { Task } from "../../interfaces/task";
 
 const file = path.resolve("tasks.json");
 

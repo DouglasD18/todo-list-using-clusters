@@ -14,7 +14,15 @@ export class UpdateTaskController {
     try {
       const { body } = httpRequest;
 
-      const isValid = this.validateBody.isValid(body);
+      const { name } = body;
+      if (!name) {
+        return {
+          statusCode: 400,
+          body: new MissingParamError(name)
+        }
+      }
+
+      const isValid = this.validateBody.isValid(body.task);
       if (typeof isValid === "string") {
         return {
           statusCode: 400,
@@ -22,7 +30,6 @@ export class UpdateTaskController {
         }
       }
 
-      const { name } = body;
       const exists = await this.readOneTask.read(name);
       if (exists === undefined) {
         return {

@@ -1,6 +1,6 @@
 import { Task } from "../../interfaces/task";
 import { CreateTask } from "../../interfaces/useCases";
-import { create, read } from "../../utils/tasks-manipulation";
+import { create, read } from "../../utils/tasks-manipulation/tasks-manipulation";
 
 export class CreateTaskService implements CreateTask {
   async create(task: Task): Promise<Task> {

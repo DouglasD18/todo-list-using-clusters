@@ -1,6 +1,6 @@
 import { Task } from "../../interfaces/task";
 import { UpdateTask } from "../../interfaces/useCases";
-import { update } from "../../utils/tasks-manipulation";
+import { update } from "../../utils/tasks-manipulation/tasks-manipulation";
 
 export class UpdateTaskService implements UpdateTask {
   async update(request: { name: string; task: Task; }): Promise<Task> {

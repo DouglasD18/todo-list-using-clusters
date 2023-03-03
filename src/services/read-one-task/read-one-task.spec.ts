@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { Task } from "../../interfaces/task";
 import { ReadOneTaskService } from "./read-one-task";
-import { create } from "../../utils/tasks-manipulation";
+import { create } from "../../utils/tasks-manipulation/tasks-manipulation";
 
 const file = path.resolve("tasks.json");
 
