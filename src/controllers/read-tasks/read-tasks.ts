@@ -1,8 +1,9 @@
 import { HttpResponse } from '../../interfaces/http';
 import { ServerError } from '../../interfaces/errors';
 import { ReadTasks } from '../../interfaces/useCases';
+import { Controller } from '../../interfaces/controller';
 
-export class ReadTasksController {
+export class ReadTasksController implements Controller {
   constructor(private readTasks: ReadTasks) {}
 
   async handle(): Promise<HttpResponse> {

@@ -2,8 +2,9 @@ import { ReadOneTask, UpdateTask } from "../../interfaces/useCases";
 import { HttpRequest, HttpResponse } from '../../interfaces/http';
 import { MissingParamError, NotFoundError, ServerError } from "../../interfaces/errors";
 import { ValidateBody } from "../../interfaces/validate-body";
+import { Controller } from "../../interfaces/controller";
 
-export class UpdateTaskController {
+export class UpdateTaskController implements Controller {
   constructor(
     private validateBody: ValidateBody,
     private readOneTask: ReadOneTask,

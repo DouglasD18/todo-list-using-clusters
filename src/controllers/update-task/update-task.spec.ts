@@ -80,7 +80,7 @@ describe("UpdateTask Controller", () => {
     const validSpy = jest.spyOn(validateBodyStub, "isValid");
     await sut.handle(httpRequest);
 
-    expect(validSpy).toHaveBeenCalledWith(body);
+    expect(validSpy).toHaveBeenCalledWith(body.task);
   })
 
   it("Should return 400 if ValidateBody return name", async () => {

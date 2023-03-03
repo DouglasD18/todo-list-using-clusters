@@ -2,8 +2,9 @@ import { ValidateBody } from "../../interfaces/validate-body";
 import { CreateTask } from '../../interfaces/useCases';
 import { HttpRequest, HttpResponse } from '../../interfaces/http';
 import { MissingParamError, ServerError } from "../../interfaces/errors";
+import { Controller } from "../../interfaces/controller";
 
-export class CreateTaskController {
+export class CreateTaskController implements Controller {
   constructor(
     private validateBody: ValidateBody,
     private createTask: CreateTask

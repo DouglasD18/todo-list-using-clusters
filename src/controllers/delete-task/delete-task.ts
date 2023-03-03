@@ -1,8 +1,9 @@
 import { ReadOneTask, DeleteTask } from "../../interfaces/useCases";
 import { HttpRequest, HttpResponse } from '../../interfaces/http';
 import { MissingParamError, NotFoundError, ServerError } from "../../interfaces/errors";
+import { Controller } from "../../interfaces/controller";
 
-export class DeleteTaskController {
+export class DeleteTaskController implements Controller {
   constructor(
     private readOneTask: ReadOneTask,
     private deleteTask: DeleteTask
