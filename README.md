@@ -2,7 +2,7 @@
 
 # Context
 
-API for CRUD of tasks using SOLID Principles, TDD, Design Patterns and background jobs in NodeJs.
+API for CRUD of tasks using SOLID Principles, TDD, Design Patterns and multiprocess in NodeJs.
 
 ## Technologies
 
