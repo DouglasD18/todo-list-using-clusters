@@ -17,13 +17,13 @@ describe("ReadOneTask Service", () => {
     await fs.writeFile(file, []);
   })
 
-  it("Should return an empty array if do not have any Task with the same name", async () => {
+  it("Should return an undefined if do not have any Task with the same name", async () => {
     const sut = new ReadOneTaskService();
 
     await create(makeFakeTask());
     const task = await sut.read("Code");
 
-    expect(task).toEqual([]);
+    expect(task).toEqual(undefined);
   })
 
   it("Should return the correct Task", async () => {

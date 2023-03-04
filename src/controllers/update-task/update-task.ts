@@ -32,7 +32,7 @@ export class UpdateTaskController implements Controller {
       }
 
       const exists = await this.readOneTask.read(name);
-      if (exists === undefined) {
+      if (typeof exists === "undefined") {
         return {
           statusCode: 404,
           body: new NotFoundError()
